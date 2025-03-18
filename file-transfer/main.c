@@ -21,8 +21,12 @@ void HandleSender(int filedes) {
   }
   while (fread(buffer, sizeof(char), 1024, file) > 0) {
     // send the buffer to the receiver
+    // TODO: sending the metadata of the file first
     send(sockfd, buffer, sizeof(buffer), 0);
     printf("writing..%s\n", buffer);
+    // TODO: verifying the integrity of the file sent
+    // multiple ways to do this
+    // checksum, CRC, I'll try both
   }
   fclose(file);
   close(sockfd);
@@ -88,6 +92,8 @@ int main(int argc, char **argv) {
   printf("Are you a sender or a receiver? (1/0): ");
   scanf("%d", &identity);
 
+  // TODO: handling multiple clients connected (or peer) and servinf them same
+  // files like a chatroom wiht files, a peer can share files to all their peers
   // receiver side code
   if (identity == 0) {
     while (1) { // address of the peer connection
